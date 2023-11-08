@@ -51,6 +51,11 @@
     cursor: pointer;
 }
 
+.noData {
+    color: white;
+    font-size: 1rem;
+}
+
 /* Result */
 
 .result {
