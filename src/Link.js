@@ -3,30 +3,30 @@ import React, { useEffect, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 const Link = ({inputValue}) => {
-    const [shortenLink, setShortenLink]=useState("Hello World!");
+    const [shortenLink, setShortenLink]=useState("Hello there!");
     const [copied, setCopied]=useState(false);
     const [loading, setLoading]=useState(false);
     const [error, setError]=useState(false);
     
     const fetchData = async (inputValue) => {
       setLoading(true);
+      const encodedParams = new URLSearchParams();
+      encodedParams.set('url', inputValue);
       const options = {
         method: 'POST',
-        url: 'https://shrtlnk.dev/api/v2/link',
+        url: 'https://url-shortener-service.p.rapidapi.com/shorten',
         headers: {
-          'Content-Type': 'application/json',
-          'api-key': 'swe9meqpwa80ntOFFmMa1zNF3OpplezNM5fYF9LmkWIGn',
-          'Accept': 'application/json'
+          'content-type': 'application/x-www-form-urlencoded',
+          'X-RapidAPI-Key': '461c9e292emsh2968541a1ad61c0p14062cjsnc34da2e8fad4',
+          'X-RapidAPI-Host': 'url-shortener-service.p.rapidapi.com'
         },
-        data: {
-          url: inputValue
-        }
+        data: encodedParams,
       };
       
       try {
-        const response = await axios.request(options );
+        const response = await axios.request(options);
         console.log(response.data);
-        setShortenLink(response.data.shrtlnk);
+        setShortenLink(response.data.result_url);
       } catch (err) {
         setError(err);
       } finally {
@@ -55,7 +55,7 @@ const Link = ({inputValue}) => {
 
     if(error) {
       return <p className='noData'>
-        Something went wrong ;(
+        Something went wrong :(
       </p>
     }
 
